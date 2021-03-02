@@ -34,7 +34,7 @@
 			echo "Input something"
 			exit 1
 		fi
-		echo "select * from view_characters_items_summary where id_characters=$INPUT" | mysql -u consulta amongmeme | cut -d $'\t' -f 4;
+		echo "select * from view_characters_items_summary where id_character=$INPUT" | mysql -u consulta amongmeme | cut -d $'\t' -f 4;
 	else	
 			echo "Incorrect Choice"
 	fi
