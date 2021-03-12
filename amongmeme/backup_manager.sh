@@ -7,7 +7,7 @@ if [ "$1" == "" ]; then
 	exit 1
 fi
 
-mysqldump -u backups amongmeme > /tmp/$1
+mysqldump -u backup amongmeme > /tmp/$1
 
 tar czf $1.tar.gz --absolute-names /tmp/$1
 
