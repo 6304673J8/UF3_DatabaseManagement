@@ -156,9 +156,10 @@ if [ "$INPUT" == "1" ]; then
 			echo "Error: Name too short. NAME >= 4"	
 			exit 1;
 		fi
+
 		QUERY="SELECT id_character,name FROM characters WHERE name LIKE '%$NAME%'"
 		CHAR=`echo $QUERY | mysql -u manager amongmeme | tail -n 1`
-		if [ "$NAME" == "" ];then
+		if [ "$CHAR" == "" ];then
 			echo "ERROR: Introduce a name."
 			exit 4;
 		fi
