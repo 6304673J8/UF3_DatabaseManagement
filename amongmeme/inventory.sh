@@ -3,16 +3,17 @@
 	echo "================="
 	
 	echo "Choose an option:"
-  echo "-----------------"
+	echo "-----------------"
 	
-	echo "1.- Show character"
+	echo "1.- Show Character"
 	echo "2.- Show Inventory"
-	echo "3.- Exit"
+	echo "3.- Delete Character"
+	echo "4.- Exit"
 
 
 	read INPUT
 
-	if [ "$INPUT" == "3" ] || [ "$INPUT" == "" ]; then
+	if [ "$INPUT" == "4" ] || [ "$INPUT" == "" ]; then
 		echo "pos Hasta Luego"
 		exit 0
 	fi
@@ -35,6 +36,19 @@
 			exit 1
 		fi
 		echo "select * from view_characters_items_summary where id_character=$INPUT" | mysql -u consulta amongmeme | cut -d $'\t' -f 4;
+	elif [ "$INPUT" == "3" ]; then
+		echo "Personajes:"
+		echo "----------"
+		echo "Choose character you want"
+
+		read INPUT
+
+		if [ "$INPUT" == "" ]; then
+			echo "Choose Anyone"
+			exit 1
+		fi
+		echo "select * from view_characters_items_summary where id_character=$INPUT" | mysql -u consulta amongmeme | cut -d $'\t' -f 4;
+	
 	else	
 			echo "Incorrect Choice"
 	fi

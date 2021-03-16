@@ -15,6 +15,8 @@ echo "2.- Show Inventory"
 echo "3.- Create character"
 echo "4.- Create Item "
 echo "5.- Equip Item"
+echo "6.- Update Character"
+echo "7.- Delete Character"
 echo "Q.- Exit"
 
 
@@ -144,6 +146,70 @@ if [ "$INPUT" == "1" ]; then
 		fi
 
 		echo $QUERY | mysql -u manager amongmeme;
-else
+	elif [ "$INPUT" == "6" ]; then
+		echo "Which character should be upgraded?"
+		read NAME
+	
+		LEN =`echo -n $NAME | wc -c`
+
+		if [ $LEN -lt 4 ]; then
+			echo "Error: Name too short. NAME >= 4"	
+			exit 1;
+		fi
+		QUERY="SELECT id_character,name FROM characters WHERE name LIKE '%$NAME%'"
+		CHAR=`echo $QUERY | mysql -u manager amongmeme | tail -n 1`
+		if [ "$NAME" == "" ];then
+			echo "ERROR: Introduce a name."
+			exit 4;
+		fi
+
+		ID_CHAR=`echo $CHAR | cut -d " " -f 1`
+		CHAR_NAME=`echo $CHAR | cut -d " " -f 2`
+
+		echo "Full Name: $CHAR_NAME"
+		echo -n "Input new name:"
+
+		read NAME
+
+		if [ `echo -n $NAME | wc -c` -lt 4 ]; then
+			echo "ERROR: name too short"
+			exit 3
+		fi
+
+		QUERY="UPDATE characters SET name="
+
+	elif [ "$INPUT" == "7" ]; then
+
+		echo "Enter Admin Password"
+		read -s PASS
+
+		echo "Delete character:"
+		echo "_________________"
+		read NAME
+
+		LEN =`echo -n $NAME | wc -c`
+
+		if [ $LEN -lt 4 ]; then
+			echo "Error: Name too short. NAME >= 4"	
+			exit 1;
+		fi
+
+		QUERY="SELECT id_character FROM characters WHERE  name LIKE '%$NAME%'"
+		ID_CHAR = `echo $QUERY | mysql -u manager amongmeme | tail -n 1`
+		if [ "$ID_CHAR" == "" ]; then
+			echo "NO MATCH"
+			exit 2
+		fi
+
+		echo "valor char: $ID_CHAR"
+
+		QUERY="DELETE FROM characters_items WHERE id_character=$ID_CHAR"
+		echo $QUERY | mysql -u enti -p$PASS amongmeme
+	
+		QUERY="DELETE FROM characters WHERE id_character=$ID_CHAR"
+		#echo $QUERY
+
+		echo $QUERY | mysql -u enti -p$PASS amongmeme
+	else
 		echo "Incorrect Choice"
 	fi
